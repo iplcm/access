@@ -3,6 +3,7 @@ package routes
 import (
 	"html/template"
 	"net/http"
+	"os"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -37,6 +38,9 @@ func (r Routes) SetSession() Routes {
 func (r Routes) AddRoutes() Routes {
 	site := r.routes.Group("", func(c *gin.Context) {
 		c.Header("x-powered-by", "@CR2477")
+		if c.Request.Host != os.Getenv("CRM_HOST") {
+			c.AbortWithStatus(444)
+		}
 		c.Next()
 	})
 	site.GET("/", func(c *gin.Context) { c.Redirect(http.StatusFound, "/login") })
