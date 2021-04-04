@@ -1,0 +1,15 @@
+{{ define "info" }}
+    {{ .name }}: {{ .email }}
+    <a href="/logout">登出</a>
+    <br>
+    <br>
+    {{ Unescaped .text }}<br>
+    <br>
+    订阅列表：<br>
+    {{ range $k, $v := .including }}
+        {{ $v }}
+        <a href="{{ index $.uuri $v }}" target="_blank">{{ index $.uuri $v }}</a><br>
+    {{ end }}
+    <br>
+    最新首页访问: <a href="/get/sync" target="_blank">{{ .host }}</a><br>
+{{ end }}
